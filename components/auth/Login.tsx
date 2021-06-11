@@ -7,26 +7,24 @@ import firebase from 'firebase';
 interface Istate {
   email: string
   password: any
-  name: any
 }
 
-export class Register extends Component<{}, Istate> {
+export class Login extends Component<{}, Istate> {
   constructor(props: any){
     super(props);
 
     this.state = {
       email: '',
-      password: '',
-      name: ''
+      password: ''
     }
 
-    this.onSignUp = this.onSignUp.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
   }
 
-  onSignUp(){
-    const {email, password, name}= this.state;
+  onSignIn(){
+    const {email, password}= this.state;
 
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    firebase.auth().signInWithEmailAndPassword(email, password)
       .then(result => console.log(result))
       .catch(err => console.log(err))
     
@@ -35,18 +33,16 @@ export class Register extends Component<{}, Istate> {
   render() {
     return (
       <View>
-        <TextInput placeholder='Name'
-        onChangeText={name => this.setState({ name })} />
         <TextInput placeholder='Email'
         onChangeText={email => this.setState({ email })} />
         <TextInput placeholder='Password'
         secureTextEntry={true}
         onChangeText={password => this.setState({ password })} />
-        <Button title='Sign Up'
-        onPress={() => this.onSignUp()} />
+        <Button title='Sign In'
+        onPress={() => this.onSignIn()} />
       </View>
     )
   }
 }
 
-export default Register
+export default Login

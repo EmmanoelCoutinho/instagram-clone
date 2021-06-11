@@ -2,8 +2,9 @@ import React from 'react';
 
 import { Text, View, Button } from 'react-native';
 
-export default function Landing({ navigation  }: any) {
+const sla = 'foda-se'
 
+export default function Landing({ navigation  }: any) {
 
   return (
     <View style={{flex: 1, justifyContent: 'center'}}>
