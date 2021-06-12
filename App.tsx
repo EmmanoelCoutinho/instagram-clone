@@ -14,13 +14,25 @@ import {
 //import firebase
 import firebase from 'firebase';
 
+//imports of redux
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import rootReducer from './redux/reducers';
+import thunk from 'redux-thunk';
+
+//imports of navegation lib
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
 //importing screen, and using like an component
 import LandingScreen from './components/auth/Landing';
 import RegisterScreen from './components/auth/Register';
+import MainScreen from './components/Main';
 
+//creating store of redux
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+//starting navigation with the lib
 const Stack = createStackNavigator();
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -92,9 +104,9 @@ export class App extends Component<{}, Istate> {
       )
     }
     return(
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <Text>You are already logged In! 😊</Text>
-      </View>
+     <Provider store={store}>
+        <MainScreen />
+     </Provider>
     );
     
   }
