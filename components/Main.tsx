@@ -1,28 +1,54 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+
+//importing icon lib
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+//react-navigation bottom tabs import
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchUser } from '../redux/actions/index';
 
-export class Main extends Component<{ fetchUser: any, currentUser: any }>{
+//importing intagram tabs
+import FeedScreen from './main/Feed';
+import ProfileScreen from './main/Profile';
+
+const Tab = createMaterialBottomTabNavigator();
+
+const EmptyScreen = () => (null);
+
+export class Main extends Component<{ fetchUser: any }>{
   componentDidMount(){
     this.props.fetchUser();
   }
 
   render() {
-    const { currentUser } = this.props;
-
-    if(currentUser === undefined){
-      return(
-        <View></View>
-      )
-    }
-    
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>{currentUser.name} are already logged In! 😊</Text>
-      </View>
+      <Tab.Navigator initialRouteName='Feed' labeled={false} >
+        <Tab.Screen name="Feed" component={FeedScreen} options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name='home' color={color} size={26} />
+          )
+        }}/>
+        <Tab.Screen name="AddContainer" component={EmptyScreen}
+          listeners={({ navigation }) => ({
+            tabPress: event => {
+              event.preventDefault();
+              navigation.navigate('Add')
+            }
+          })}
+          options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name='plus-box' color={color} size={26} />
+          )
+        }}/>
+        <Tab.Screen name="Profile" component={ProfileScreen} options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name='account-circle' color={color} size={26} />
+          )
+        }}/>
+      </Tab.Navigator>
     )
   };
 };

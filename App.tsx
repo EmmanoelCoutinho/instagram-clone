@@ -27,7 +27,11 @@ import { NavigationContainer } from '@react-navigation/native';
 //importing screen, and using like an component
 import LandingScreen from './components/auth/Landing';
 import RegisterScreen from './components/auth/Register';
+import LoginScreen from './components/auth/Login';
 import MainScreen from './components/Main';
+
+//import instagram tabs
+import AddScreen from './components/main/Add';
 
 //creating store of redux
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -99,13 +103,20 @@ export class App extends Component<{}, Istate> {
           <Stack.Screen name='Landing' component={LandingScreen} 
           options={{headerShown: false}} />
           <Stack.Screen name='Register' component={RegisterScreen} />
+          <Stack.Screen name='Login' component={LoginScreen}/>
         </Stack.Navigator>
       </NavigationContainer>
       )
     }
     return(
      <Provider store={store}>
-        <MainScreen />
+          <NavigationContainer>
+          <Stack.Navigator initialRouteName='Landing'>
+            <Stack.Screen name='Main' component={MainScreen} 
+            options={{headerShown: false}} />
+            <Stack.Screen name='Add' component={AddScreen} />
+          </Stack.Navigator>
+         </NavigationContainer>
      </Provider>
     );
     
